@@ -10,8 +10,8 @@ const allDataShow = document.getElementById('allDataShow');
 const allDataShowContents = allDataShow.querySelector('.contents');
 let solidData;
 // APi url
-// const API_URL = 'https://clipboard-test.herokuapp.com';
-const API_URL = 'http://localhost:8080';
+const API_URL = 'https://clipboard-test-api.herokuapp.com';
+// const API_URL = 'http://localhost:8080';
 
 // Click on the button
 copyBtn.addEventListener('click', copyDataFn);
