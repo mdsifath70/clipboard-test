@@ -2,6 +2,7 @@
 const copyBtn = document.getElementById('copyBtn');
 const saveBtn = document.getElementById('saveBtn');
 const dataContent = document.getElementById('dataContent');
+const dataContentPaste = document.getElementById('dataContentPaste');
 const showerData = document.getElementById('showerData');
 const btnContainer = document.getElementById('btnContainer');
 const copiedText = document.getElementById('copiedText');
@@ -9,23 +10,26 @@ const copiedType = document.getElementById('copiedType');
 const allDataShow = document.getElementById('allDataShow');
 const allDataShowContents = allDataShow.querySelector('.contents');
 let solidData;
+
 // APi url
 const API_URL = 'https://clipboard-test-api.herokuapp.com';
 // const API_URL = 'http://localhost:8080';
 
-// Click on the button
+// Events fire
 copyBtn.addEventListener('click', copyDataFn);
 saveBtn.addEventListener('click', saveDataFn);
+document.addEventListener('copy', copyPasteClipboard);
+dataContentPaste.addEventListener('paste', copyPasteClipboard);
 
 function copyDataFn(e, textArea) {
-    if (textArea?.value || dataContent.value) {
+    if (textArea || dataContent.value) {
         if (textArea) {
             textArea.select();
         } else {
             dataContent.select();
         }
+
         copyIdentifier(textArea);
-        showerData.style.display = 'block';
         document.execCommand('copy');
     } else {
         alert('Please fill the text field');
@@ -43,11 +47,11 @@ function copyIdentifier(textArea) {
 // invoked
 copyIdentifier();
 
-window.addEventListener('copy', async (e) => {
+function copyPasteClipboard(e) {
     e.preventDefault();
 
     // Copy as json
-    e.clipboardData.setData('application/json', dataContentWhich.value);
+    if (e.type !== 'paste') e.clipboardData.setData('application/json', dataContentWhich.value);
 
     let copyDataType;
     if (e.clipboardData.getData('application/json')) {
@@ -55,9 +59,10 @@ window.addEventListener('copy', async (e) => {
         solidData = e.clipboardData.getData(copyDataType);
         copiedType.textContent = copyDataType;
         copiedText.textContent = solidData;
-        dataContentWhich === dataContent && (saveBtn.style.display = 'block');
+        showerData.style.display = 'block';
+        e.type === 'paste' && (saveBtn.style.display = 'block');
     }
-});
+}
 
 // Save clipboard to db
 async function saveDataFn() {
@@ -87,7 +92,6 @@ async function getAllData() {
     const { clipboards } = await res.json();
     showData(clipboards);
 }
-
 // Invoked all data
 getAllData();
 

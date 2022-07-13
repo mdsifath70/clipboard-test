@@ -16,9 +16,12 @@
             <form class="form">
                 <div class="btn__container" id="btnContainer">
                     <button type="button" id="copyBtn">Copy</button>
-                    <button type="button" id="saveBtn" hidden>Save Data</button>
                 </div>
                 <textarea name="coreData" cols="30" rows="8" id="dataContent" placeholder="Enter your content"></textarea>
+                <textarea name="pasteData" cols="30" rows="8" id="dataContentPaste" placeholder="Paste your content"></textarea>
+                <div class="btn__container">
+                    <button type="button" id="saveBtn" hidden>Save Data</button>
+                </div>
             </form>
             <div id="showerData" hidden>
                 <div>Type: <span id="copiedType"></span></div>
